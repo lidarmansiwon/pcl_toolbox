@@ -57,6 +57,7 @@ sudo make install
 
 mkdir -p ~/pcl_ros/src
 cd ~/pcl_ros/src/
+(In my case, I do in my work space, not pcl_ros dir)
 git clone https://github.com/ros-perception/perception_pcl.git -b foxy-devel
 git clone https://github.com/ros-perception/pcl_msgs -b ros2
 cd ~/pcl_ros
@@ -66,7 +67,7 @@ colcon build --packages-ignore pcl_msgs # build packages except pcl_msgs
 
 ```
 
-!!  If you finished upper process, but you can see error with "pclConfig.cmake". You should do below process!
+## If you finished upper process, but you can see error with "pclConfig.cmake". You should do below process!
 
 1. check your PCLConfig.cmake file location
 
