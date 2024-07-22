@@ -37,3 +37,27 @@ rotation_quaternion      --> **쿼터니언 좌표계를 통한 회전변환**
 
 ## Launch 
 ``` ros2 launch pcl_toolbox tool_box_launch.py ```
+## Using on Jetson system
+
+# these testes on jetson nano ubuntu 18.04 and L4T 4.6.2
+
+sudo apt install libpcl-dev # some packages should be installed on jetson bc of dependencies
+sudo apt remove libpcl-* --purge
+# Download pcl-pcl-1.10.1.tar.gz from
+# https://github.com/PointCloudLibrary/pcl/releases/tag/pcl-1.10.1
+# to the jetson and move this file to ~/.local/lib/
+cd ~/.local/lib
+tar xvf pcl-pcl-1.10.1.tar.gz
+cd pcl-pcl-1.10.1 && mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+
+mkdir -p ~/pcl_ros/src
+cd ~/pcl_ros/src/
+git clone https://github.com/ros-perception/perception_pcl.git -b galactic
+git clone https://github.com/ros-perception/pcl_msgs -b ros2
+cd ~/pcl_ros
+colcon build --packages-select pcl_msgs
+source install/setup.bash
+colcon build --packages-ignore pcl_msgs # build packages except pcl_msgs
