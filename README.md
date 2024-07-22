@@ -57,7 +57,7 @@ sudo make install
 
 mkdir -p ~/pcl_ros/src
 cd ~/pcl_ros/src/
-git clone https://github.com/ros-perception/perception_pcl.git -b galactic
+git clone https://github.com/ros-perception/perception_pcl.git -b foxy-devel
 git clone https://github.com/ros-perception/pcl_msgs -b ros2
 cd ~/pcl_ros
 colcon build --packages-select pcl_msgs
@@ -65,3 +65,37 @@ source install/setup.bash
 colcon build --packages-ignore pcl_msgs # build packages except pcl_msgs
 
 ```
+
+!!  If you finished upper process, but you can see error with "pclConfig.cmake". You should do below process!
+
+1. check your PCLConfig.cmake file location
+
+```
+cd /.local/lib/pcl-pcl-1.10.1
+grep -r "PCLConfig.cmake"
+```
+
+2. Then you can find location of PCLConfig.cmake. In my case, location is ".local/lib/pcl-pcl-1.10.1/build/PCLConfig.cmake"
+
+3. Go to location of PCLConfig.cmake and make new file
+
+```
+cd ~/.local/lib/pcl-pcl-1.10.1/build/
+sudo ln -s PCLConfig.cmake pclConfig.cmake
+```
+
+4. Edit to CMakeLists.txt
+
+```
+set(pcl_DIR "/home/macroorin3/.local/lib/pcl-pcl-1.10.1/build") --> + this line
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(pcl REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+
+```
+
+5. Then you can colcon build again 
