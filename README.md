@@ -40,6 +40,7 @@ rotation_quaternion      --> **쿼터니언 좌표계를 통한 회전변환**
 ## Using on Jetson system
 
 '''
+
 # these testes on jetson nano ubuntu 18.04 and L4T 4.6.2
 
 sudo apt install libpcl-dev # some packages should be installed on jetson bc of dependencies
@@ -62,4 +63,5 @@ cd ~/pcl_ros
 colcon build --packages-select pcl_msgs
 source install/setup.bash
 colcon build --packages-ignore pcl_msgs # build packages except pcl_msgs
+
 '''
