@@ -13,8 +13,8 @@ def generate_launch_description():
     filter_node = Node(
 
             package="pcl_toolbox",
-            executable="Pcl_Tool_Box",
-            name="Pcl_Tool_Box",
+            executable="ScanTool",
+            name="ScanTool",
             output="screen",
             emulate_tty=True,
             remappings=[('/ouster/points', pcl_topic)],
@@ -24,14 +24,9 @@ def generate_launch_description():
                 {"crop_box_y_min": -5.0},
                 {"crop_box_y_max": 5.0},
                 {"crop_box_z_min": -0.0},
-                {"crop_box_z_max": 1.4},
-                {"voxel_resolution": 0.2},
+                {"crop_box_z_max": 0.3},
                 {"setMean": 10.0},
-                {"setStddevMulThresh": 10.0},
-                {"rotation_quaternion_x": 0.0},
-                {"rotation_quaternion_y": 0.0},
-                {"rotation_quaternion_z": 0.0},
-                {"rotation_quaternion_w": 1.0}, 
+                {"setStddevMulThresh": 30.0},
             ]
         )
     

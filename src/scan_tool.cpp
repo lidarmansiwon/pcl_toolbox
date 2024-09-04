@@ -24,7 +24,7 @@ public:
         subscription_ = create_subscription<sensor_msgs::msg::PointCloud2>(
             "/agent3/points", rclcpp::SensorDataQoS(), std::bind(&Pcl_Tool_Box::lidar_callback, this, std::placeholders::_1));
 
-        pub_ = create_publisher<sensor_msgs::msg::PointCloud2>("/tcvf_points", 100);
+        pub_ = create_publisher<sensor_msgs::msg::PointCloud2>("/scan_points", 100);
         pub_downsampled_ = create_publisher<sensor_msgs::msg::PointCloud2>("/tcv_points", 100);
         pub_transformed_ = create_publisher<sensor_msgs::msg::PointCloud2>("/t_points",100);
     }
@@ -132,6 +132,13 @@ private:
 
         return transformed_cloud;
     }
+    void flattenPointCloud(pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud)
+    {
+    for (auto& point : cloud->points)
+    {
+        point.z = 0.0; // Set z-coordinate to 0
+    }
+    }
 
     void lidar_callback(const sensor_msgs::msg::PointCloud2::SharedPtr input)
     {
@@ -153,29 +160,25 @@ private:
         // CropBox filter
         pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_cropped = applyCropBoxFilter(cloud_transformed);
 
-        // VoxelGrid downsampling
-        pcl::VoxelGrid<pcl::PointXYZI> sor_downsample;
-        sor_downsample.setInputCloud(cloud_cropped);
-        sor_downsample.setLeafSize(voxel_resolution_, voxel_resolution_, voxel_resolution_); // Set the voxel size
-        sor_downsample.filter(*cloud_downsampled);
-        // Publish the Data
-        sensor_msgs::msg::PointCloud2 downsampled;
-        pcl::toROSMsg(*cloud_downsampled, downsampled);
-        pub_downsampled_->publish(downsampled);
-
         // RCLCPP_INFO(this->get_logger(), "Cloud before filtering: %lu points", cloud_downsampled->size());
 
-        // StatisticalOutlierRemoval filtering
-        pcl::StatisticalOutlierRemoval<pcl::PointXYZI> sor_filter;
-        sor_filter.setInputCloud(cloud_downsampled);
-        sor_filter.setMeanK(setMean_);
-        sor_filter.setStddevMulThresh(setStddevMulThresh_);
-        sor_filter.filter(*cloud_filtered);
-
+        // // StatisticalOutlierRemoval filtering
+        // pcl::StatisticalOutlierRemoval<pcl::PointXYZI> sor_filter;
+        // sor_filter.setInputCloud(cloud_cropped);
+        // sor_filter.setMeanK(setMean_);
+        // sor_filter.setStddevMulThresh(setStddevMulThresh_);
+        // sor_filter.filter(*cloud_filtered);
+        
+        flattenPointCloud(cloud_cropped);
         // Publish the Data
         sensor_msgs::msg::PointCloud2 output;
-        pcl::toROSMsg(*cloud_filtered, output);
+        pcl::toROSMsg(*cloud_cropped, output);
         pub_->publish(output);
+
+
+
+
+
 
         // RCLCPP_INFO(this->get_logger(), "Cloud after filtering: %lu points", cloud_filtered->size());
 

@@ -22,7 +22,7 @@ public:
         auto qos = rclcpp::QoS(rclcpp::KeepLast(1)).reliable(); // 센서 데이터에 대한 신뢰할 수 있는 QoS 설정
 
         subscription_ = create_subscription<sensor_msgs::msg::PointCloud2>(
-            "/ouster/points", rclcpp::SensorDataQoS(), std::bind(&PCL_CropBox::lidar_callback, this, std::placeholders::_1));
+            "/agent3/points", rclcpp::SensorDataQoS(), std::bind(&PCL_CropBox::lidar_callback, this, std::placeholders::_1));
 
         pub_cropbox_ = create_publisher<sensor_msgs::msg::PointCloud2>("/crop_points",100);
     }
@@ -38,11 +38,11 @@ private:
     
     void declare_parameters()
     {   
-        declare_parameter<double>("crop_box_y_min", -10.0);
-        declare_parameter<double>("crop_box_y_max", 10.0);
-        declare_parameter<double>("crop_box_z_min", -1.0);
-        declare_parameter<double>("crop_box_z_max", 1.5);
-        declare_parameter<double>("crop_box_x_min", -10.0);
+        declare_parameter<double>("crop_box_y_min", -50.0);
+        declare_parameter<double>("crop_box_y_max", 50.0);
+        declare_parameter<double>("crop_box_z_min", 0.0);
+        declare_parameter<double>("crop_box_z_max", 10.0);
+        declare_parameter<double>("crop_box_x_min", 3.0);
         declare_parameter<double>("crop_box_x_max", 20.0);
     }
 
