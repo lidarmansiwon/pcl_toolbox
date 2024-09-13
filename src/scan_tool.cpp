@@ -6,6 +6,7 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/filters/crop_box.h>
+#include <pcl/common/transforms.h>
 
 class Pcl_Tool_Box : public rclcpp::Node
 {

@@ -17,7 +17,7 @@ endif()
 
 #set(PCL_DIR "/found/folder/")
 #set(pcl_DIR "/usr/lib/aarch64-linux-gnu/cmake/pcl")
-set(pcl_DIR "/home/macroorin3/.local/lib/pcl-pcl-1.10.1/build")
+set(pcl_DIR "/usr/lib/aarch64-linux-gnu/cmake/pcl")
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -27,22 +27,22 @@ find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 add_executable(Pcl_Tool_Box src/pcl_tool_box.cpp)
-ament_target_dependencies(Pcl_Tool_Box rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(Pcl_Tool_Box rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 add_executable(ScanTool src/scan_tool.cpp)
-ament_target_dependencies(ScanTool rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(ScanTool rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 add_executable(PCL_Transform src/pcl_transform.cpp)
-ament_target_dependencies(PCL_Transform rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(PCL_Transform rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 add_executable(PCL_CropBox src/pcl_cropbox.cpp)
-ament_target_dependencies(PCL_CropBox rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(PCL_CropBox rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 add_executable(PCL_Voxelize src/pcl_voxelize.cpp)
-ament_target_dependencies(PCL_Voxelize rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(PCL_Voxelize rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 add_executable(PCL_SOR_Filter src/pcl_sor_filter.cpp)
-ament_target_dependencies(PCL_SOR_Filter rclcpp sensor_msgs pcl_conversions pcl_ros)
+ament_target_dependencies(PCL_SOR_Filter rclcpp sensor_msgs pcl_conversions pcl_ros pcl)
 
 install(TARGETS
   Pcl_Tool_Box
